@@ -102,28 +102,69 @@ class ProcesosController extends AbstractController {
         }
 
         $login = $this->acceso($usuario);
-        
+
         $repository = $this->getDoctrine()->getRepository(Procesos::class);
         $proceso = $repository->find($id);
         return $this->render('procesos/show.html.twig', [
                     'proceso' => $proceso,
                     'login' => $login,
                     'usuario' => $usuario
-                    
         ]);
     }
 
     public function tabla() {
         $repository = $this->getDoctrine()->getRepository(Procesos::class);
         $procesos = $repository->findAll();
+        $dolarHoy = $this->dollarHoy();
+
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
         $jsonContent = $serializer->serialize($procesos, 'json');
+        $arrayContent = json_decode($jsonContent, true);
 
+        foreach ($arrayContent as $cl => $vl) {
+            $presupuesto = $vl['presupuesto'];
+            $arrayContent[$cl]['usPresupuesto'] = null;
+
+            if (is_numeric($presupuesto)) {
+                $arrayContent[$cl]['presupuesto'] = number_format($presupuesto, 2, ',', '.');
+                $arrayContent[$cl]['usPresupuesto'] = number_format($presupuesto / $dolarHoy, 2, ',', '.');
+                
+            }
+        }
+        $dataJson = json_encode($arrayContent);
         return new Response(
-                $jsonContent
+                $dataJson
         );
+    }
+
+    public function dollarService() {
+        $dolar = $this->dollarHoy();
+        $res = json_encode(['dolar' => $dolar]);
+        return new Response(
+                $res
+                );
+    }
+
+    private function dollarHoy() {
+        $ch = curl_init('https://openexchangerates.org/api/latest.json?app_id=ce750943045f47f8932273bbca04a93c');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $respuesta = curl_exec($ch);
+        $val = json_decode($respuesta, true);
+        $error = curl_error($ch);
+        curl_close($ch);
+
+        if (is_array($val) && array_key_exists('rates', $val)) {
+            if (array_key_exists('COP', $val['rates'])) {
+                return $val['rates']['COP'];
+            } else {
+                return 3000;
+            }
+        } else {
+            return 3000;
+        }
     }
 
     private function validar($serial, $descripcion, $creacion, $presupuesto) {

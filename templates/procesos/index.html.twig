@@ -2,18 +2,22 @@
 
 
 {% block body %}
-    <script src="{{asset('js/proceso_tb.js')}}"></script>
+    
     
     {% if(login == true)%}
         {{include('btn_salir.html.twig')}}
-        
+        <div class="text-center card" id="dolarHoy" style="color: red">
+            
+        </div>    
+        <br><br>
         <div id="tabla_esp">
             
         </div>
         
         <div class="text-center">
             <b><a href="{{path('crea_proceso')}}">Crear nuevo proceso</a></b>
-        </div>    
+        </div>  
+        <script src="{{asset('js/proceso_tb.js')}}"></script>
     {% else%}
         {{include('loguese.html.twig')}}
     {% endif%}    

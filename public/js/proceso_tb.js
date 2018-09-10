@@ -2,6 +2,7 @@ var tb_proceso = {
     INICIO: function () {
         tb_proceso.EVENTOS();
         tb_proceso.LOGICA.tabla();
+        tb_proceso.LOGICA.dolarHoy();
     },
     EVENTOS: function () {
 
@@ -15,6 +16,12 @@ var tb_proceso = {
                 $table = tb_proceso.VISTA.tb($respuesta);
                 $("#tabla_esp").html($table);
                 
+            });
+        },
+        dolarHoy:function (){
+            $.post('procesos/dollarService', {}, function (parameters) {
+                $res = JSON.parse(parameters);
+                $("#dolarHoy").html('Precio del dolar hoy: '+$res['dolar']);
             });
         }
     },
@@ -34,7 +41,9 @@ var tb_proceso = {
             $tb += "</th>";
             $tb += "<th>Presupuesto en pesos";
             $tb += "</th>";
-            $tb += "<th>Presupuesto en pesos";
+            $tb += "<th>Presupuesto en dolares";
+            $tb += "</th>";
+            $tb += "<th>";
             $tb += "</th>";
             $tb += "</tr>";
             $.each(dataObj, function ($ix, val) {
@@ -56,14 +65,26 @@ var tb_proceso = {
                 $tb += val.descripcion;
                 $tb += "</th>";
                 $tb += "<th>";
-                $tb += val.creacion.timestamp;
+                
+                let date = new Date(val.creacion.timestamp*1000);
+                let mes=date.getMonth()+1; 
+                let dia=date.getDate(); 
+                let anyo=date.getFullYear();
+                
+                $tb += anyo+'-'+mes+'-'+dia;
                 $tb += "</th>";
                 $tb += "<th>";
                 
                 if(val.presupuesto){
-                    $tb += val.presupuesto;
+                    $tb += '$'+val.presupuesto;
                 }
                 
+                $tb += "</th>";
+                $tb += "<th>";
+                
+                if(val.usPresupuesto){
+                    $tb += "$"+val.usPresupuesto;
+                }
                 $tb += "</th>";
                 $tb += "<th>";
                 $tb += "<a href='procesos/ver/"+val.id+"'>VER</a>";
