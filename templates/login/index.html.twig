@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block body %}
+    
+    {% if(login == false) %}
+    <div class="col-md-12 col-lg-12 text-center">
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4 alert-danger"> <p>Para ingresar use la contraseña: </p><p>comforce</p></div>
+            <div class="col-lg-4"></div>
+        </div>    
+        <br><br>
+        <form action="{{path('acceso')}}" id="login_form" data-redirect ="{{path('procesos')}}">
+            <label>Correo usuario</label>
+            <input name="correo" class="form-control" type="email" required value="cifuentesrfelipe@gmail.com">
+            <label>Contraseña</label>
+            <input name="psw" type="password" required class="form-control" value="comforce">
+            <button type="submit" class="btn btn-success">Ingresar</button>
+            <div style="color: red" id="msj"></div>
+        </form>
+    </div> 
+    <script src="{{asset('js/login.js')}}"></script>
+    {%else %}
+        Ya está logueado, vaya al siguiente link <br>
+        <b><a href="{{path('procesos')}}">Procesos</a></b>
+    {%endif %}
+{% endblock %}

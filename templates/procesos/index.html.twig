@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <script src="{{asset('js/proceso_tb.js')}}"></script>
+    
+    {% if(login == true)%}
+        {{include('btn_salir.html.twig')}}
+        
+        <div id="tabla_esp">
+            
+        </div>
+        
+        <div class="text-center">
+            <b><a href="{{path('crea_proceso')}}">Crear nuevo proceso</a></b>
+        </div>    
+    {% else%}
+        {{include('loguese.html.twig')}}
+    {% endif%}    
+{% endblock %}

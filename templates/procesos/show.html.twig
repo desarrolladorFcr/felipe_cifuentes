@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <script src="{{asset('js/proceso_tb.js')}}"></script>
+    
+    {% if(login == true)%}
+        {{include('btn_salir.html.twig')}}
+        
+        <table class=" table table-active text-center">
+            <tr>
+                <th>
+                    ID
+                </th> 
+            
+                <td>                
+                    {{proceso.id}}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Número
+                </th>    
+                <td>                
+                    {{proceso.serial}}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Sede
+                </th> 
+                <td>
+                    {%if(proceso.sede)%}
+                    {{proceso.sede.nombre}}
+                    {% else%}
+                        No seleccionada
+                    {% endif %}
+                </td>    
+            </tr>    
+            <tr>
+                <th>
+                    Descripción
+                </th>    
+                <td>                
+                    {{proceso.descripcion}}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Presupuesto
+                </th>    
+                <td>  
+                    {%if(proceso.presupuesto)%}
+                    ${{proceso.presupuesto}}
+                    {%else%}
+                        No seleccionado
+                    {%endif %}
+                </td>
+            </tr>    
+        </table>    
+        <div class="text-center">
+            <b><a href="{{path('procesos')}}">Volver</a></b>
+        </div>
+        <br><br>
+        <div class="text-center">
+            <b><a href="{{path('crea_proceso')}}">Crear nuevo proceso</a></b>
+        </div>    
+    {% else%}
+        {{include('loguese.html.twig')}}
+    {% endif%}    
+{% endblock %}

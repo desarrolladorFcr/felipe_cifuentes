@@ -1,0 +1,34 @@
+index:
+    path: /
+    controller: App\Controller\LoginController::index
+    
+acceso:
+    path: login/acceso
+    controller: App\Controller\LoginController::acceso
+    
+salida:
+    path: login/salida
+    controller: App\Controller\LoginController::salida
+    
+procesos:
+    path: 'procesos'
+    controller: App\Controller\ProcesosController::index
+    
+crea_proceso:
+    path: 'procesos/crear'
+    controller: App\Controller\ProcesosController::crear
+nuevo_proceso:
+    path: 'procesos/nuevo'
+    controller: App\Controller\ProcesosController::nuevo
+    
+sedes: 
+    path: 'procesos/sedes'
+    controller: App\Controller\ProcesosController::sedes
+    
+tbproceso:
+        path: 'procesos/tabla'
+        controller: App\Controller\ProcesosController::tabla
+        
+verProceso:
+    path: procesos/ver/{id}
+    controller: App\Controller\ProcesosController::ver

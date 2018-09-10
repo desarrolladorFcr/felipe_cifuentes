@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% if(login == true)%}
+        {{include('btn_salir.html.twig')}}
+        <div>
+            <div class="text-center">
+                <h3>Creación del proceso</h3>
+            </div>
+            <div>
+                <form action="{{path('nuevo_proceso')}}" id="form_proceso" data-destino ="{{path('procesos')}}">
+                    <label>Número proceso</label>
+                    <input name="serial" class="form-control">
+                    <label>Descripción</label>
+                    <textarea name="descripcion" class="form-control" required></textarea>
+                    <label>Fecha creación</label>
+                    <input name="creacion" class="form-control" id="datepicker">
+                    <label>Sedes</label>
+                    <select class="form-control" name="sede" id="sedes"></select>
+
+                    <label>Presupuesto en pesos</label>
+                    <input name="presupuesto" class="form-control">
+                    <div class="text-center">
+                        <button type="submit" id="btn_env" class="btn btn-success">Guardar</button>
+                        <div style="color: red" id="msj"></div>
+                    </div>
+                </form>
+            </div>
+            <script src="{{asset('js/proceso.js')}}"></script>
+        </div>
+        <input type="hidden" value="{{path('sedes')}}" id="urlsedes">
+        <script>
+            $(function () {
+                $("#datepicker").datepicker();
+            });
+        </script>
+    {% else%}
+        {{include('loguese.html.twig')}}
+    {% endif%}    
+{% endblock %}
