@@ -105,10 +105,23 @@ class ProcesosController extends AbstractController {
 
         $repository = $this->getDoctrine()->getRepository(Procesos::class);
         $proceso = $repository->find($id);
+        $fecha = $proceso->getCreacion();
+        
+        if(is_numeric($proceso->getPresupuesto())){
+            $presupuesto = number_format($proceso->getPresupuesto(), 2, ',', '.' );
+            $us_presup = number_format($proceso->getPresupuesto() / $this->dollarHoy(), 2, ',', '.');
+        }else{
+            $presupuesto = "Sin definir";
+            $us_presup = "Sin definir";
+        }
+        
         return $this->render('procesos/show.html.twig', [
                     'proceso' => $proceso,
                     'login' => $login,
-                    'usuario' => $usuario
+                    'usuario' => $usuario,
+                    'fecha' => $fecha,
+                    'presupuesto' => $presupuesto,
+                    'us_presup' => $us_presup
         ]);
     }
 

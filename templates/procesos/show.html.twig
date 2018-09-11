@@ -47,15 +47,27 @@
             </tr>
             <tr>
                 <th>
-                    Presupuesto
+                    Presupuesto en pesos
                 </th>    
                 <td>  
-                    {%if(proceso.presupuesto)%}
-                    ${{proceso.presupuesto}}
-                    {%else%}
-                        No seleccionado
-                    {%endif %}
+                    ${{presupuesto}}
                 </td>
+            </tr>
+            <tr>
+                <th>
+                    Presupuesto en dolares
+                </th>    
+                <td>  
+                    ${{us_presup}}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Creación
+                </th>
+                <td>
+                    {{fecha.format('Y-m-d')}}
+                </td>    
             </tr>    
         </table>    
         <div class="text-center">
